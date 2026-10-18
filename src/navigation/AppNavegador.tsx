@@ -4,6 +4,8 @@ import { tema } from '../styles/tema';
 import { CiudadForm } from '../views/CiudadForm';
 import { CiudadLista } from '../views/CiudadLista';
 import { EnConstruccion } from '../views/EnConstruccion';
+import { IvaForm } from '../views/IvaForm';
+import { IvaLista } from '../views/IvaLista';
 import { MenuPrincipal } from '../views/MenuPrincipal';
 import { ProvinciaForm } from '../views/ProvinciaForm';
 import { ProvinciaLista } from '../views/ProvinciaLista';
@@ -14,8 +16,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 // Pantallas que todavía no están construidas. Al construir una, se quita de esta lista
 // y se agrega su <Stack.Screen> con la pantalla real (se indica en cada paso).
 const PANTALLAS_PENDIENTES: { nombre: Exclude<keyof RootStackParamList, 'Menu'>; titulo: string }[] = [
-  { nombre: 'IvaLista', titulo: 'IVA' },
-  { nombre: 'IvaForm', titulo: 'IVA' },
   { nombre: 'ClienteLista', titulo: 'Clientes' },
   { nombre: 'ClienteForm', titulo: 'Cliente' },
   { nombre: 'VendedorLista', titulo: 'Vendedores' },
@@ -51,6 +51,10 @@ export function AppNavegador() {
         {/* Ciudad (Paso 8) */}
         <Stack.Screen name="CiudadLista" component={CiudadLista} options={{ title: 'Ciudades' }} />
         <Stack.Screen name="CiudadForm" component={CiudadForm} />
+
+        {/* IVA (Paso 9) */}
+        <Stack.Screen name="IvaLista" component={IvaLista} options={{ title: 'IVA' }} />
+        <Stack.Screen name="IvaForm" component={IvaForm} />
 
         {PANTALLAS_PENDIENTES.map((pantalla) => (
           <Stack.Screen

@@ -23,6 +23,11 @@ export function esErrorClaveForanea(error: unknown): boolean {
   return /FOREIGN KEY constraint failed/i.test(textoDeError(error));
 }
 
+// Se rompió una regla CHECK de la tabla (por ejemplo, un porcentaje fuera de 0 a 100).
+export function esErrorCheck(error: unknown): boolean {
+  return /CHECK constraint failed/i.test(textoDeError(error));
+}
+
 /* ---------- Mensaje al intentar eliminar algo que tiene registros relacionados ---------- */
 
 export type Relacionado = {
