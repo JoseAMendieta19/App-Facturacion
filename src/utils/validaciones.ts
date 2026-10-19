@@ -34,6 +34,14 @@ export function filtrarDecimal(texto: string, maxEnteros = 8, maxDecimales = 2):
   return `${parteEntera}.${decimales.slice(0, maxDecimales)}`;
 }
 
+// Fecha mientras se escribe: solo dígitos, y agrega los guiones solos -> "20261231" = "2026-12-31"
+export function filtrarFecha(texto: string): string {
+  const d = texto.replace(/\D/g, '').slice(0, 8);
+  if (d.length <= 4) return d;
+  if (d.length <= 6) return `${d.slice(0, 4)}-${d.slice(4)}`;
+  return `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`;
+}
+
 // Solo letras (con tildes y ñ) y espacios.
 export function filtrarLetras(texto: string): string {
   return texto.replace(new RegExp(`[^${LETRA} ]`, 'g'), '');
@@ -53,8 +61,13 @@ export function normalizarTexto(texto: string): string {
 
 /* ---------- Validaciones: devuelven el mensaje de error o null si está bien ---------- */
 
+// "El nombre es obligatorio" / "La serie es obligatoria" (concuerda con el artículo de la etiqueta).
+function mensajeObligatorio(etiqueta: string): string {
+  return `${etiqueta} es ${/^la\s/i.test(etiqueta) ? 'obligatoria' : 'obligatorio'}`;
+}
+
 export function validarObligatorio(valor: string, etiqueta: string): string | null {
-  return limpiarEspacios(valor) === '' ? `${etiqueta} es obligatorio` : null;
+  return limpiarEspacios(valor) === '' ? mensajeObligatorio(etiqueta) : null;
 }
 
 export function validarLongitudMax(valor: string, max: number, etiqueta: string): string | null {
@@ -87,7 +100,7 @@ export function validarCorreo(valor: string, etiqueta = 'El correo'): string | n
 // Exactamente 10 dígitos numéricos.
 export function validarTelefono(valor: string, etiqueta = 'El teléfono'): string | null {
   const t = valor.trim();
-  if (t === '') return `${etiqueta} es obligatorio`;
+  if (t === '') return mensajeObligatorio(etiqueta);
   if (!/^\d+$/.test(t)) return `${etiqueta} solo puede contener números`;
   if (t.length < 10) return `${etiqueta} debe tener 10 dígitos (faltan ${10 - t.length})`;
   if (t.length > 10) return `${etiqueta} debe tener exactamente 10 dígitos`;
@@ -134,7 +147,7 @@ export function validarNumero(
   { min, max, minExclusivo = false, maxDecimales = 2 }: OpcionesNumero = {}
 ): string | null {
   const t = valor.trim();
-  if (t === '') return `${etiqueta} es obligatorio`;
+  if (t === '') return mensajeObligatorio(etiqueta);
   const patron = maxDecimales === 0 ? /^\d+$/ : /^\d+(\.\d+)?$/;
   if (!patron.test(t)) {
     return maxDecimales === 0

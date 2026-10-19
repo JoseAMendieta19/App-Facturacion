@@ -1,9 +1,9 @@
 import type { TextInputProps } from 'react-native';
 import { Asterisco, EntradaTexto, Etiqueta, GrupoCampo, TextoError } from '../styles/componentes';
 import { tema } from '../styles/tema';
-import { filtrarDecimal, filtrarLetras, filtrarNumeros } from '../utils/validaciones';
+import { filtrarDecimal, filtrarFecha, filtrarLetras, filtrarNumeros } from '../utils/validaciones';
 
-export type TipoCampo = 'texto' | 'letras' | 'entero' | 'decimal' | 'correo';
+export type TipoCampo = 'texto' | 'letras' | 'entero' | 'decimal' | 'correo' | 'fecha';
 
 type Props = Omit<
   TextInputProps,
@@ -26,6 +26,7 @@ const TECLADOS = {
   entero: 'number-pad',
   decimal: 'decimal-pad',
   correo: 'email-address',
+  fecha: 'number-pad',
 } as const;
 
 export function CampoTexto({
@@ -48,6 +49,8 @@ export function CampoTexto({
         return onCambiar(filtrarNumeros(texto, maxLength));
       case 'decimal':
         return onCambiar(filtrarDecimal(texto, maxEnteros, maxDecimales));
+      case 'fecha':
+        return onCambiar(filtrarFecha(texto)); // AAAA-MM-DD con guiones automáticos
       case 'letras':
         return onCambiar(filtrarLetras(texto).slice(0, maxLength));
       case 'correo':
@@ -57,7 +60,7 @@ export function CampoTexto({
     }
   }
 
-  const limite = tipo === 'decimal' ? maxEnteros + maxDecimales + 1 : maxLength;
+  const limite = tipo === 'decimal' ? maxEnteros + maxDecimales + 1 : tipo === 'fecha' ? 10 : maxLength;
   const textoLibre = tipo === 'texto' || tipo === 'letras';
 
   return (
