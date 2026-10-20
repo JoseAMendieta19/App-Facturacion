@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { Boton } from '../components/Boton';
+import { CampoFecha } from '../components/CampoFecha';
 import { CampoTexto } from '../components/CampoTexto';
 import { ContenedorFormulario } from '../components/ContenedorFormulario';
 import { type Opcion, SelectorBuscable } from '../components/SelectorBuscable';
@@ -8,6 +9,7 @@ import * as ProductoController from '../controllers/ProductoController';
 import type { CampoProducto } from '../controllers/ProductoController';
 import type { PropsPantalla } from '../navigation/tipos';
 import { Pantalla, ZonaBotones } from '../styles/componentes';
+import { fechaLocalISO } from '../utils/formato';
 import { useGuardando } from '../utils/useGuardando';
 import type { Errores } from '../utils/validaciones';
 
@@ -18,6 +20,7 @@ export function ProductoForm({ navigation, route }: PropsPantalla<'ProductoForm'
   const [cantidad, setCantidad] = useState('');
   const [proveedorId, setProveedorId] = useState<number | null>(null);
   const [fechaVenci, setFechaVenci] = useState('');
+  const [fechaOriginal, setFechaOriginal] = useState(''); // la que tenía al abrir (solo al editar)
   const [precio, setPrecio] = useState('');
   const [errores, setErrores] = useState<Errores<CampoProducto>>({});
   const { guardando, ejecutar } = useGuardando();
@@ -31,6 +34,10 @@ export function ProductoForm({ navigation, route }: PropsPantalla<'ProductoForm'
       })),
     []
   );
+    // No se pueden elegir fechas pasadas, salvo al editar un producto que ya estaba vencido
+  // (entonces el selector abre en su fecha y se puede dejar igual).
+  const hoy = fechaLocalISO();
+  const fechaMinima = fechaOriginal !== '' && fechaOriginal < hoy ? undefined : hoy;
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: id === null ? 'Nuevo producto' : 'Editar producto' });
@@ -51,6 +58,7 @@ export function ProductoForm({ navigation, route }: PropsPantalla<'ProductoForm'
     setCantidad(String(producto.produc_cantidad));
     setProveedorId(producto.provee_id);
     setFechaVenci(producto.produc_fecha_venci);
+    setFechaOriginal(producto.produc_fecha_venci);
     setPrecio(String(producto.produc_precio));
   }, [id, navigation]);
 
@@ -127,17 +135,18 @@ export function ProductoForm({ navigation, route }: PropsPantalla<'ProductoForm'
           mensajeVacio="No hay proveedores registrados. Cree uno primero."
           error={errores.proveedor}
         />
-        <CampoTexto
-          etiqueta="Fecha de vencimiento"
-          obligatorio
-          tipo="fecha"
-          placeholder="AAAA-MM-DD"
-          valor={fechaVenci}
-          onCambiar={(texto) => {
-            setFechaVenci(texto);
-            limpiarError('fechaVenci');
-          }}
-          error={errores.fechaVenci}
+        <CampoFecha
+            etiqueta="Fecha de vencimiento"
+            obligatorio
+            valor={fechaVenci}
+            onCambiar={(fecha) => {
+              setFechaVenci(fecha);
+              limpiarError('fechaVenci');
+            }}
+            minimaFecha={fechaMinima}
+            maximaFecha="2100-12-31"
+            placeholder="Seleccione la fecha de vencimiento"
+            error={errores.fechaVenci}
         />
         <CampoTexto
           etiqueta="Precio unitario ($)"

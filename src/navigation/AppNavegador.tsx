@@ -5,7 +5,9 @@ import { CiudadForm } from '../views/CiudadForm';
 import { CiudadLista } from '../views/CiudadLista';
 import { ClienteForm } from '../views/ClienteForm';
 import { ClienteLista } from '../views/ClienteLista';
-import { EnConstruccion } from '../views/EnConstruccion';
+import { FacturaDetalle } from '../views/FacturaDetalle';
+import { FacturaLista } from '../views/FacturaLista';
+import { FacturaNueva } from '../views/FacturaNueva';
 import { IvaForm } from '../views/IvaForm';
 import { IvaLista } from '../views/IvaLista';
 import { MenuPrincipal } from '../views/MenuPrincipal';
@@ -20,14 +22,6 @@ import { VendedorLista } from '../views/VendedorLista';
 import type { RootStackParamList } from './tipos';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-// Pantallas que todavía no están construidas. Al construir una, se quita de esta lista
-// y se agrega su <Stack.Screen> con la pantalla real (se indica en cada paso).
-const PANTALLAS_PENDIENTES: { nombre: Exclude<keyof RootStackParamList, 'Menu'>; titulo: string }[] = [
-  { nombre: 'FacturaLista', titulo: 'Facturas' },
-  { nombre: 'FacturaNueva', titulo: 'Nueva factura' },
-  { nombre: 'FacturaDetalle', titulo: 'Detalle de factura' },
-];
 
 export function AppNavegador() {
   return (
@@ -72,14 +66,10 @@ export function AppNavegador() {
         <Stack.Screen name="ProductoLista" component={ProductoLista} options={{ title: 'Productos' }} />
         <Stack.Screen name="ProductoForm" component={ProductoForm} />
 
-        {PANTALLAS_PENDIENTES.map((pantalla) => (
-          <Stack.Screen
-            key={pantalla.nombre}
-            name={pantalla.nombre}
-            component={EnConstruccion}
-            options={{ title: pantalla.titulo }}
-          />
-        ))}
+        {/* Factura (Paso 14: nueva; Paso 15: lista y detalle) */}
+        <Stack.Screen name="FacturaLista" component={FacturaLista} options={{ title: 'Facturas' }} />
+        <Stack.Screen name="FacturaNueva" component={FacturaNueva} options={{ title: 'Nueva factura' }} />
+        <Stack.Screen name="FacturaDetalle" component={FacturaDetalle} options={{ title: 'Detalle de factura' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

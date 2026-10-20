@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Fragment } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import type { PropsPantalla, RutaSinDatos } from '../navigation/tipos';
 import { Pantalla } from '../styles/componentes';
 import {

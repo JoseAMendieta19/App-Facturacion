@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { FlatList, Modal } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   AreaModal,
   Asterisco,
@@ -57,6 +58,7 @@ export function SelectorBuscable({
   mensajeVacio = 'No hay opciones disponibles',
 }: Props) {
   const [abierto, setAbierto] = useState(false);
+  const { bottom } = useSafeAreaInsets(); // la hoja no debe quedar bajo la barra del sistema
   const [consulta, setConsulta] = useState('');
 
   const seleccionada = opciones.find((o) => o.id === valorId) ?? null;
@@ -131,7 +133,7 @@ export function SelectorBuscable({
               onPress={() => setAbierto(false)}
               accessibilityLabel="Cerrar selector"
             />
-            <HojaModal>
+            <HojaModal style={{ paddingBottom: tema.espacio.xl + bottom }}>
               <CabeceraHoja>
                 <TituloHoja>{etiqueta}</TituloHoja>
                 <BotonIcono onPress={() => setAbierto(false)} accessibilityLabel="Cerrar">
