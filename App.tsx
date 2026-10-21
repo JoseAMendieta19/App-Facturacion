@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Appearance, StyleSheet, Text, View } from 'react-native';
 import { inicializarBaseDeDatos } from './src/database/conexion';
 import { AppNavegador } from './src/navigation/AppNavegador';
 import { tema } from './src/styles/tema';
+
+// Fuerza el modo claro en toda la app (selector de fecha, alertas, teclado, etc.).
+Appearance.setColorScheme('light');
 
 type EstadoBD = { ok: true } | { ok: false; mensaje: string };
 
@@ -31,7 +34,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <AppNavegador />
     </>
   );

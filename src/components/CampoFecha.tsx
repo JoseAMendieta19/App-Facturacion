@@ -12,7 +12,13 @@ import {
   TextoError,
   TextoSelector,
 } from '../styles/componentes';
-import { ColumnaBotonFecha, FilaBotonesFecha, FondoHojaFecha, HojaFecha } from '../styles/fecha';
+import {
+  AgarraderaHoja,
+  ColumnaBotonFecha,
+  FilaBotonesFecha,
+  FondoHojaFecha,
+  HojaFecha,
+} from '../styles/fecha';
 import { tema } from '../styles/tema';
 import { fechaDesdeISO, fechaInicial } from '../utils/fechas';
 import { fechaLocalISO, formatearFecha } from '../utils/formato';
@@ -103,7 +109,7 @@ export function CampoFecha({
             <Ionicons name="close-circle" size={20} color={tema.colores.textoSecundario} />
           </BotonIcono>
         ) : (
-          <Ionicons name="calendar-outline" size={20} color={tema.colores.textoSecundario} />
+          <Ionicons name="calendar-outline" size={20} color={tema.colores.primario} />
         )}
       </CajaSelector>
       {error ? <TextoError>{error}</TextoError> : null}
@@ -117,6 +123,7 @@ export function CampoFecha({
         >
           <FondoHojaFecha>
             <HojaFecha style={{ paddingBottom: tema.espacio.l + bottom }}>
+              <AgarraderaHoja />
               <DateTimePicker
                 value={temporal}
                 mode="date"
@@ -125,6 +132,8 @@ export function CampoFecha({
                 minimumDate={minima}
                 maximumDate={maxima}
                 onValueChange={(_evento, fecha) => setTemporal(fecha)}
+                themeVariant="light"
+                accentColor={tema.colores.primario}
               />
               <FilaBotonesFecha>
                 <ColumnaBotonFecha>

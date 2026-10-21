@@ -11,10 +11,22 @@ export const FondoHojaFecha = styled.View`
 `;
 
 export const HojaFecha = styled.View`
-  padding: ${espacio.l}px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  padding: ${espacio.m}px ${espacio.l}px ${espacio.l}px ${espacio.l}px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  border-width: 1px;
+  border-color: ${colores.vidrioBorde};
   background-color: ${colores.superficie};
+`;
+
+// Rayita gris arriba de la hoja, indica que es un panel deslizable.
+export const AgarraderaHoja = styled.View`
+  align-self: center;
+  width: 40px;
+  height: 5px;
+  margin-bottom: ${espacio.s}px;
+  border-radius: 3px;
+  background-color: ${colores.borde};
 `;
 
 export const FilaBotonesFecha = styled.View`

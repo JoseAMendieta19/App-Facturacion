@@ -29,9 +29,15 @@ export function AppNavegador() {
       <Stack.Navigator
         initialRouteName="Menu"
         screenOptions={{
-          headerStyle: { backgroundColor: tema.colores.primario },
-          headerTintColor: tema.colores.textoSobrePrimario,
-          headerTitleStyle: { fontWeight: '600' },
+          // Barra clara del mismo color del fondo, sin línea de sombra: se ve integrada con el cristal.
+          headerStyle: { backgroundColor: tema.colores.fondo },
+          headerShadowVisible: false,
+          headerTintColor: tema.colores.primario, // flecha de volver en azul
+          headerTitleStyle: {
+            fontWeight: '700',
+            fontSize: tema.fuente.subtitulo,
+            color: tema.colores.texto,
+          },
           headerBackButtonDisplayMode: 'minimal', // iPhone: solo la flecha, sin texto
           contentStyle: { backgroundColor: tema.colores.fondo },
         }}

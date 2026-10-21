@@ -1,5 +1,5 @@
 import { ActivityIndicator } from 'react-native';
-import { BotonBase, TextoBoton, type VarianteBoton } from '../styles/componentes';
+import { BotonBase, GradienteBoton, TextoBoton, type VarianteBoton } from '../styles/componentes';
 import { tema } from '../styles/tema';
 
 type Props = {
@@ -9,6 +9,8 @@ type Props = {
   deshabilitado?: boolean;
   variante?: VarianteBoton;
 };
+
+const DIAGONAL = { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } };
 
 export function Boton({
   titulo,
@@ -31,6 +33,9 @@ export function Boton({
       $variante={variante}
       $inactivo={inactivo}
     >
+      {variante === 'primario' && !inactivo ? (
+        <GradienteBoton colors={tema.gradientes.primario} {...DIAGONAL} />
+      ) : null}
       {cargando ? <ActivityIndicator color={colorIndicador} style={{ marginRight: 8 }} /> : null}
       <TextoBoton $variante={variante}>{titulo}</TextoBoton>
     </BotonBase>

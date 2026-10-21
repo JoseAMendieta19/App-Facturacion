@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Flotante } from '../styles/componentes';
+import { Flotante, GradienteFlotante } from '../styles/componentes';
 import { tema } from '../styles/tema';
 
 type Props = { onPress: () => void; etiqueta?: string };
+
+const DIAGONAL = { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } };
 
 // Va dentro de un contenedor con flex: 1 (por ejemplo <Pantalla>), se ancla abajo a la derecha.
 export function BotonFlotante({ onPress, etiqueta = 'Agregar' }: Props) {
@@ -17,6 +19,7 @@ export function BotonFlotante({ onPress, etiqueta = 'Agregar' }: Props) {
       accessibilityRole="button"
       accessibilityLabel={etiqueta}
     >
+      <GradienteFlotante colors={tema.gradientes.primario} {...DIAGONAL} />
       <Ionicons name="add" size={32} color={tema.colores.textoSobrePrimario} />
     </Flotante>
   );

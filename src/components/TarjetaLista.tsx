@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import {
-  BotonIcono,
+  Avatar,
+  BotonAccion,
   SubtituloTarjeta,
   Tarjeta,
+  TextoAvatar,
   TextoDerecha,
   TextosTarjeta,
   TituloTarjeta,
@@ -26,22 +28,27 @@ export function TarjetaLista({
   onEditar,
   onEliminar,
 }: Props) {
+  const inicial = titulo.trim().charAt(0).toUpperCase();
+
   return (
     <Tarjeta onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
+      <Avatar>
+        <TextoAvatar>{inicial}</TextoAvatar>
+      </Avatar>
       <TextosTarjeta>
         <TituloTarjeta numberOfLines={1}>{titulo}</TituloTarjeta>
         {subtitulo ? <SubtituloTarjeta numberOfLines={1}>{subtitulo}</SubtituloTarjeta> : null}
       </TextosTarjeta>
       {textoDerecha ? <TextoDerecha>{textoDerecha}</TextoDerecha> : null}
       {onEditar ? (
-        <BotonIcono onPress={onEditar} accessibilityLabel={`Editar ${titulo}`}>
-          <Ionicons name="create-outline" size={22} color={tema.colores.primario} />
-        </BotonIcono>
+        <BotonAccion onPress={onEditar} accessibilityLabel={`Editar ${titulo}`}>
+          <Ionicons name="create-outline" size={20} color={tema.colores.primario} />
+        </BotonAccion>
       ) : null}
       {onEliminar ? (
-        <BotonIcono onPress={onEliminar} accessibilityLabel={`Eliminar ${titulo}`}>
-          <Ionicons name="trash-outline" size={22} color={tema.colores.error} />
-        </BotonIcono>
+        <BotonAccion $peligro onPress={onEliminar} accessibilityLabel={`Eliminar ${titulo}`}>
+          <Ionicons name="trash-outline" size={20} color={tema.colores.error} />
+        </BotonAccion>
       ) : null}
     </Tarjeta>
   );
